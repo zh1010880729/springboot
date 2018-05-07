@@ -48,7 +48,7 @@
         </dependency>
 
 
-        <!--JDBC-->
+        <!--JDBC开始-->
         <dependency>
             <groupId>org.mybatis.spring.boot</groupId>
             <artifactId>mybatis-spring-boot-starter</artifactId>
@@ -64,7 +64,7 @@
             <artifactId>druid</artifactId>
             <version>1.0.11</version>
         </dependency>
-        <!--JDBC-->
+        <!--JDBC结束-->
     </dependencies>
 
     <build>

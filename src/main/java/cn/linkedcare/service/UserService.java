@@ -7,7 +7,7 @@ import cn.linkedcare.entity.User;
  */
 public interface UserService {
 
-    int insert(User user);
+    User insert(User user);
 
     User findById(int id);
 }

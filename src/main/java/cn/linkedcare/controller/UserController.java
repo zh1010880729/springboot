@@ -25,7 +25,7 @@ public class UserController {
 
     @PostMapping(value = "register", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity register(@RequestBody User user) {
-        userService.insert(user);
-        return ResponseEntity.status(HttpStatus.OK).body("注册成功");
+
+        return ResponseEntity.status(HttpStatus.OK).body(userService.insert(user));
     }
 }
