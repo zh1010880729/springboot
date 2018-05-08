@@ -1,26 +1,19 @@
 spring:
   profiles: dev
   datasource:
-      name: master
+    master:
       url: jdbc:mysql://localhost:3306/benji?useUnicode=true&characterEncoding=utf8
       username: root
       password: 123456
-      # 使用druid数据源
-      type: com.alibaba.druid.pool.DruidDataSource
-      driver-class-name: com.mysql.jdbc.Driver
-      filters: stat
-      maxActive: 20
-      initialSize: 1
-      maxWait: 60000
-      minIdle: 1
-      timeBetweenEvictionRunsMillis: 60000
-      minEvictableIdleTimeMillis: 300000
-      validationQuery: select 'x'
-      testWhileIdle: true
-      testOnBorrow: false
-      testOnReturn: false
-      poolPreparedStatements: true
-      maxOpenPreparedStatements: 20
+    slave1:
+      url: jdbc:mysql://localhost:3306/benji?useUnicode=true&characterEncoding=utf8
+      username: root
+      password: 123456
+    slave2:
+      url: jdbc:mysql://localhost:3306/benji?useUnicode=true&characterEncoding=utf8
+      username: root
+      password: 123456
+
 mybatis:
   mapper-locations: classpath:mapper/*.xml
   type-aliases-package: cn.linkedcare.entity

@@ -5,6 +5,7 @@ import cn.linkedcare.entity.User;
 import cn.linkedcare.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Created by Benji on 2018/5/7.
@@ -17,6 +18,7 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
+    @Transactional
     public User insert(User user) {
         int count = userMapper.insertSelective(user);
         return user;

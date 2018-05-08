@@ -1,11 +1,12 @@
 package cn.linkedcare.controller;
 
+import cn.linkedcare.config.properties.DataSourceProperties;
+import cn.linkedcare.entity.CommonResultMap;
 import cn.linkedcare.entity.User;
+import cn.linkedcare.enumeration.HttpCode;
 import cn.linkedcare.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -17,15 +18,16 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private DataSourceProperties dataSourceProperties;
 
     @GetMapping(value = "me", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity getLoginInfo() {
-        return ResponseEntity.status(HttpStatus.OK).body(userService.findById(1));
+    public CommonResultMap getLoginInfo() {
+        return CommonResultMap.builder(HttpCode.OK).data(dataSourceProperties).msg("查询成功").total(1).build();
     }
 
     @PostMapping(value = "register", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity register(@RequestBody User user) {
-
-        return ResponseEntity.status(HttpStatus.OK).body(userService.insert(user));
+    public CommonResultMap register(@RequestBody User user) {
+        return CommonResultMap.builder(HttpCode.OK).msg("新增成功").data(userService.insert(user)).build();
     }
 }
