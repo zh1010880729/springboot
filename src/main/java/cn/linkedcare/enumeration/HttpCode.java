@@ -6,7 +6,8 @@ package cn.linkedcare.enumeration;
 public enum HttpCode {
     OK("A0000"),
     ERROR("A0001"),
-    AUTHENTICATE_FAILURED("A0002");
+    AUTHENTICATE_FAILURED("A0002"),
+    BUSINESS_EXCEPTION("A0003");
 
     private String status;
 
