@@ -25,7 +25,7 @@ public class UserController {
 
     @GetMapping(value = "me", produces = MediaType.APPLICATION_JSON_VALUE)
     public CommonResultMap getLoginInfo() {
-        return CommonResultMap.builder(HttpCode.OK).data(dataSourceProperties).msg("查询成功1").total(1).build();
+        return CommonResultMap.builder(HttpCode.OK).data(dataSourceProperties).msg("查询成功").total(1).build();
     }
 
     @ApiOperation(value = "新增用户",notes = "新增一个用户")
