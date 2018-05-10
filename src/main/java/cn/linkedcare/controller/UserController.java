@@ -5,6 +5,8 @@ import cn.linkedcare.entity.CommonResultMap;
 import cn.linkedcare.entity.User;
 import cn.linkedcare.enumeration.HttpCode;
 import cn.linkedcare.service.UserService;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +28,8 @@ public class UserController {
         return CommonResultMap.builder(HttpCode.OK).data(dataSourceProperties).msg("查询成功").total(1).build();
     }
 
+    @ApiOperation(value = "新增用户",notes = "新增一个用户")
+    @ApiImplicitParam(name = "user", value = "用户详细实体user", required = true, dataType = "User")
     @PostMapping(value = "register", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public CommonResultMap register(@RequestBody User user) {
         return CommonResultMap.builder(HttpCode.OK).msg("新增成功").data(userService.insert(user)).build();
