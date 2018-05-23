@@ -12,9 +12,10 @@
             <property name="suppressAllComments" value="true"/>
         </commentGenerator>
         <!--数据库链接URL，用户名、密码 -->
-        <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://127.0.0.1:3306/benji"
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://127.0.0.1:3306/tradeapp?tinyInt1isBit=false"
                         userId="root" password="123456">
         </jdbcConnection>
+
         <javaTypeResolver>
             <property name="forceBigDecimals" value="false"/>
         </javaTypeResolver>
@@ -32,10 +33,23 @@
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
         <!-- 要生成的表 tableName是数据库中的表名或视图名 domainObjectName是实体类名-->
-        <table tableName="user" domainObjectName="User" enableCountByExample="false" enableUpdateByExample="false"
+        <!--<table tableName="users_customer_office" domainObjectName="UsersCustomerOffice" enableCountByExample="false" enableUpdateByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+            &lt;!&ndash;类型重写&ndash;&gt;
+            <columnOverride column="signed" jdbcType="TINYINT" javaType="java.lang.Integer"></columnOverride>
+            <columnOverride column="is_activity" jdbcType="TINYINT" javaType="java.lang.Integer"></columnOverride>
+            <columnOverride column="saas_supply_activity" jdbcType="TINYINT" javaType="java.lang.Integer"></columnOverride>
+            <columnOverride column="is_print_price" jdbcType="TINYINT" javaType="java.lang.Integer"></columnOverride>
+            <columnOverride column="user_type" jdbcType="TINYINT" javaType="java.lang.Integer"></columnOverride>
+            <columnOverride column="credit_level" jdbcType="TINYINT" javaType="java.lang.Integer"></columnOverride>
+            <columnOverride column="member_level" jdbcType="TINYINT" javaType="java.lang.Integer"></columnOverride>
+            <columnOverride column="rounding_type" jdbcType="TINYINT" javaType="java.lang.Integer"></columnOverride>
+            <columnOverride column="enabled" jdbcType="TINYINT" javaType="java.lang.Integer"></columnOverride>
+        </table>-->
+        <table tableName="customer_member_level" domainObjectName="CustomerMemberLevel" enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
             <!--类型重写-->
-            <columnOverride column="sex" jdbcType="TINYINT" javaType="java.lang.Short"></columnOverride>
+            <columnOverride column="member_level" jdbcType="TINYINT" javaType="java.lang.Integer"></columnOverride>
         </table>
     </context>
 </generatorConfiguration>

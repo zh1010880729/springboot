@@ -96,4 +96,11 @@
       sex = #{sex,jdbcType=TINYINT}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="selectByUsername" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from user
+    where username = #{username,jdbcType=INTEGER} LIMIT 1
+  </select>
 </mapper>

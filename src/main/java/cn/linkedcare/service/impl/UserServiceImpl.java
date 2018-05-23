@@ -20,12 +20,12 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public User insert(User user) {
-        int count = userMapper.insertSelective(user);
-        try {
-            int x = count / 0;
-        } catch (RuntimeException e) {
-            throw new RuntimeException(e.getMessage());
-        }
+        userMapper.insertSelective(user);
+//        try {
+//            int x = count / 0;
+//        } catch (RuntimeException e) {
+//            throw new RuntimeException(e.getMessage());
+//        }
         return user;
     }
 
