@@ -4,10 +4,12 @@ import cn.linkedcare.entity.CommonResultMap;
 import cn.linkedcare.entity.User;
 import cn.linkedcare.enumeration.HttpCode;
 import cn.linkedcare.service.UserService;
+import com.alibaba.fastjson.JSONObject;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -19,10 +21,13 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("user")
 public class UserController {
 
+
     @Autowired
     private UserService userService;
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private StringRedisTemplate redisTemplate;
 
     @GetMapping(value = "me", produces = MediaType.APPLICATION_JSON_VALUE)
     public CommonResultMap getLoginInfo() {
@@ -40,4 +45,15 @@ public class UserController {
     }
 
 
+    @PostMapping(value = "redis/topic", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public CommonResultMap publisMsgToRedisChanel(@RequestBody String jsonStr) {
+        if (StringUtils.isBlank(jsonStr)) {
+            return CommonResultMap.builder(HttpCode.BUSINESS_EXCEPTION).msg("请求体不能为空").build();
+        }
+        JSONObject jsonObject = JSONObject.parseObject(jsonStr);
+        String topic = jsonObject.getString("topic");
+        String msg = jsonObject.getString("msg");
+        this.redisTemplate.convertAndSend(topic, msg);
+        return CommonResultMap.builder(HttpCode.OK).build();
+    }
 }

@@ -8,6 +8,7 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
 @SpringBootApplication
+//@EnableApolloConfig
 @MapperScan("cn.linkedcare.dao")
 @EnableConfigurationProperties
 @EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class})

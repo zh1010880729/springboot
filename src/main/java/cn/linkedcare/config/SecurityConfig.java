@@ -36,7 +36,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .accessDeniedHandler(new MyAccessDeniedHandler())
                 .authenticationEntryPoint(new MyAuthenticationEntryPoint())
                 .and().authorizeRequests()
-                .antMatchers("/user/auth", "/user/register").permitAll()
+                .antMatchers("/user/auth", "/user/register", "/apollo/**").permitAll()
                 .anyRequest().authenticated()
                 .and().formLogin()
                 .loginProcessingUrl("/user/auth").permitAll()
