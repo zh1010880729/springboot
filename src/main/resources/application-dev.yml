@@ -33,3 +33,7 @@ mybatis:
   type-aliases-package: cn.linkedcare.entity
   configuration:
     map-underscore-to-camel-case: true
+
+fund:
+  fundCodeAndMoney: 161725_999.03,000711_489.63,110022_486.08
+  requestUrl: http://fundgz.1234567.com.cn/js/%s.js
