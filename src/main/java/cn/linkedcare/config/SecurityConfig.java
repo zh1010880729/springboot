@@ -1,6 +1,9 @@
 package cn.linkedcare.config;
 
-import cn.linkedcare.security.*;
+import cn.linkedcare.filter.JwtAuthenticationFilter;
+import cn.linkedcare.filter.JwtLoginFilter;
+import cn.linkedcare.security.MyAccessDeniedHandler;
+import cn.linkedcare.security.MyAuthenticationEntryPoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,6 +13,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -18,7 +22,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  * Created by Benji on 2018/5/9.
  */
 @Configuration
-@EnableWebSecurity//开启security
+@EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -35,19 +39,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.exceptionHandling()
                 .accessDeniedHandler(new MyAccessDeniedHandler())
                 .authenticationEntryPoint(new MyAuthenticationEntryPoint())
-                .and().authorizeRequests()
-                .antMatchers("/user/auth", "/user/register", "/apollo/**").permitAll()
+                .and()
+                .csrf().disable()
+                .authorizeRequests()
+                .antMatchers("/user/login", "/user/register", "/apollo/**").permitAll()
                 .anyRequest().authenticated()
-                .and().formLogin()
-                .loginProcessingUrl("/user/auth").permitAll()
-                .successHandler(new MyAuthenticationSuccessHandler())
-                .failureHandler(new MyAuthenticationFailureHandler())
-                .and().logout()
-                .logoutUrl("/user/logout")
-                .logoutSuccessHandler(new MyLogoutSuccessHandler())
-                .invalidateHttpSession(true)
-                .deleteCookies("JSESSIONID")
-                .and().csrf().disable();
+                .and()
+                .addFilter(new JwtLoginFilter(authenticationManager()))
+                .addFilter(new JwtAuthenticationFilter(authenticationManager()))
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
 
     @Bean

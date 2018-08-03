@@ -31,7 +31,7 @@ public class UserController {
 
     @GetMapping(value = "me", produces = MediaType.APPLICATION_JSON_VALUE)
     public CommonResultMap getLoginInfo() {
-        return CommonResultMap.builder(HttpCode.OK).msg("查询成功").build();
+        return CommonResultMap.builder(HttpCode.OK).msg("查询成功").data(userService.findById(1)).build();
     }
 
     @ApiOperation(value = "新增用户", notes = "新增一个用户")
@@ -41,7 +41,9 @@ public class UserController {
         if (StringUtils.isNotBlank(user.getPassword())) {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
         }
-        return CommonResultMap.builder(HttpCode.OK).msg("新增成功").data(userService.insert(user)).build();
+        User newUser = userService.insert(user);
+        newUser.setPassword(null);
+        return CommonResultMap.builder(HttpCode.OK).msg("新增成功").data(newUser).build();
     }
 
 
