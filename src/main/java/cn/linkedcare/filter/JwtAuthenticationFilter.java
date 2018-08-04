@@ -1,5 +1,7 @@
 package cn.linkedcare.filter;
 
+import cn.linkedcare.service.RedisService;
+import cn.linkedcare.util.SpringContextUtil;
 import cn.linkedcare.util.TokenUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,6 +20,11 @@ import java.util.Collections;
  * Created by Benji on 2018/7/25.
  */
 public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
+    private static RedisService redisService;
+
+    static {
+        redisService = SpringContextUtil.getBean(RedisService.class);
+    }
 
     public JwtAuthenticationFilter(AuthenticationManager authenticationManager) {
         super(authenticationManager);
@@ -31,15 +38,33 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
             chain.doFilter(request, response);
             return;
         }
-        String username;
-        try {
-            username = TokenUtil.parseToken(token).getSubject();
-        } catch (Exception e) {
-            username = null;
-        }
+        String username = parseUsername(token);
         if (StringUtils.isNotBlank(username)) {
             SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(username, null, Collections.emptyList()));
         }
         super.doFilterInternal(request, response, chain);
+    }
+
+    /**
+     * 从Token中解析出用户名，并判断用户是否已登录
+     *
+     * @param token
+     * @return
+     */
+    private String parseUsername(String token) {
+        try {
+            token = token.replace(TokenUtil.prefix, "");
+            String username = TokenUtil.parseToken(token).getSubject();
+            if (StringUtils.isNotBlank(username)) {
+                String tokenInRedis = redisService.get(username);
+                if (tokenInRedis != null && tokenInRedis.equals(token)) {
+                    /**用户没有登录*/
+                    return username;
+                }
+            }
+        } catch (Exception e) {
+            logger.error("parseUsername Exception:" + e.toString());
+        }
+        return null;
     }
 }

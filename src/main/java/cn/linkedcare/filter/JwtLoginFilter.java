@@ -2,6 +2,8 @@ package cn.linkedcare.filter;
 
 import cn.linkedcare.entity.CommonResultMap;
 import cn.linkedcare.enumeration.HttpCode;
+import cn.linkedcare.service.RedisService;
+import cn.linkedcare.util.SpringContextUtil;
 import cn.linkedcare.util.TokenUtil;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -24,6 +26,13 @@ import java.util.Collections;
 public class JwtLoginFilter extends UsernamePasswordAuthenticationFilter {
 
     private AuthenticationManager authenticationManager;
+
+    private static RedisService redisService;
+
+    static {
+        redisService = SpringContextUtil.getBean(RedisService.class);
+    }
+
 
     public JwtLoginFilter(AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
@@ -57,7 +66,10 @@ public class JwtLoginFilter extends UsernamePasswordAuthenticationFilter {
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
 
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("Authorization", "Bearer " + TokenUtil.generateToken(((User) authResult.getPrincipal()).getUsername()));
+        String username = ((User) authResult.getPrincipal()).getUsername();
+        String token = TokenUtil.generateToken(username);
+        jsonObject.put("Authorization", "Bearer " + token);
+        redisService.set(username, token, TokenUtil.EXPIRE_TIME);
         CommonResultMap resultMap = CommonResultMap.builder(HttpCode.OK).msg("login success").data(jsonObject.toJSONString()).build();
         response.getWriter().write(JSONObject.toJSONString(resultMap));
     }

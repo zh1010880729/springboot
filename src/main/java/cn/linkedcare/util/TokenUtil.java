@@ -12,7 +12,8 @@ import java.util.Date;
  */
 public class TokenUtil {
 
-    private static final int EXPIRE_TIME = 60 * 60 * 12 * 1000;
+    public static final int EXPIRE_TIME = 60 * 60 * 12 * 1000;
+    public static final String prefix = "Bearer ";
     private static final String issuer = "Tiamo";
     private static final String salt = "benji2018@linkedcare";
 
@@ -31,7 +32,7 @@ public class TokenUtil {
     public static Claims parseToken(String token) {
         Claims claims = Jwts.parser()
                 .setSigningKey(salt)
-                .parseClaimsJws(token.replace("Bearer ", ""))
+                .parseClaimsJws(token)
                 .getBody();
         if (!claims.getExpiration().before(new Date())) {
             return claims;
