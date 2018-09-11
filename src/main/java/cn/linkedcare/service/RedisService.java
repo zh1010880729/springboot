@@ -14,5 +14,7 @@ public interface RedisService {
      */
     void set(String key, String value, int expireTime);
 
+    String set(String key, String value, String model, String timeUnit, Long expireTime);
+
     String get(String username);
 }

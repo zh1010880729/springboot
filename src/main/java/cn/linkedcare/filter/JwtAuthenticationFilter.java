@@ -58,7 +58,7 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
             if (StringUtils.isNotBlank(username)) {
                 String tokenInRedis = redisService.get(username);
                 if (tokenInRedis != null && tokenInRedis.equals(token)) {
-                    /**用户没有登录*/
+                    /**用户没有退出登录*/
                     return username;
                 }
             }

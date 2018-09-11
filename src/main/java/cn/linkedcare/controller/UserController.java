@@ -4,6 +4,7 @@ import cn.linkedcare.entity.CommonResultMap;
 import cn.linkedcare.entity.User;
 import cn.linkedcare.enumeration.HttpCode;
 import cn.linkedcare.service.UserService;
+import cn.linkedcare.util.LockUtil;
 import com.alibaba.fastjson.JSONObject;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -28,6 +29,9 @@ public class UserController {
     private PasswordEncoder passwordEncoder;
     @Autowired
     private StringRedisTemplate redisTemplate;
+    @Autowired
+    private LockUtil lockUtil;
+
 
     @GetMapping(value = "me", produces = MediaType.APPLICATION_JSON_VALUE)
     public CommonResultMap getLoginInfo() {

@@ -7,13 +7,10 @@ import io.shardingjdbc.core.api.config.MasterSlaveRuleConfiguration;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
-import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 
-import javax.annotation.Resource;
 import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.Map;
@@ -36,17 +33,18 @@ public class DataSourceConfig {
     private static final String USERNAME = "spring.datasource.%s.username";
     private static final String PASSWORD = "spring.datasource.%s.password";
 
-    /**
-     * 事物管理器
-     *
-     * @param dataSource
-     * @return
-     */
-    @Autowired
-    @Bean(name = "transactionManager")
-    public DataSourceTransactionManager dataSourceTransactionManager(DataSource dataSource) {
-        return new DataSourceTransactionManager(dataSource);
-    }
+//    /**
+//     * 事物管理器
+//     *
+//     * @param dataSource
+//     * @return
+//     */
+//    @Autowired
+//    @Bean(name = "transactionManager")
+//    public DataSourceTransactionManager dataSourceTransactionManager(DataSource dataSource) {
+//        DataSourceTransactionManager transactionManager = new DataSourceTransactionManager(dataSource);
+//        return transactionManager;
+//    }
 
     @Bean(name = "datasource")
     public DataSource dataSource() {
