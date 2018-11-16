@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * Created by Benji on 2018/6/14.
+ * Created by Benji on 2018/6/14.啦啦啦
  */
 @RestController
 @RequestMapping("apollo")
