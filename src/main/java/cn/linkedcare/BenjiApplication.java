@@ -9,7 +9,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
-//@EnableApolloConfig
+/*@EnableApolloConfig*/
 @SpringBootApplication
 @EnableScheduling
 @ImportResource(locations = {"classpath:transaction.xml"})

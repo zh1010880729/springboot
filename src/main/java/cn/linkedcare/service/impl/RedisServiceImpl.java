@@ -1,14 +1,11 @@
 package cn.linkedcare.service.impl;
 
 import cn.linkedcare.service.RedisService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.connection.jedis.JedisConnection;
-import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import redis.clients.jedis.Jedis;
-
-import java.util.concurrent.TimeUnit;
+import redis.clients.jedis.JedisPool;
 
 /**
  * Created by Benji on 2018/8/4.
@@ -16,31 +13,66 @@ import java.util.concurrent.TimeUnit;
 @Service("redisService")
 public class RedisServiceImpl implements RedisService {
 
-
     @Autowired
-    private StringRedisTemplate redisTemplate;
-    @Autowired
-    private JedisConnectionFactory jedisConnectionFactory;
+    private JedisPool jedisPool;
 
     @Override
     public void set(String key, String value) {
-        redisTemplate.opsForValue().set(key, value);
+        Jedis jedis = getConnectionFromPool(jedisPool);
+        try {
+            jedis.set(key, value);
+        } finally {
+            releaseConnection(jedis);
+        }
     }
 
     @Override
     public void set(String key, String value, int expireTime) {
-        redisTemplate.opsForValue().set(key, value, expireTime, TimeUnit.SECONDS);
+        Jedis jedis = getConnectionFromPool(jedisPool);
+        try {
+            if (successResponse(jedis.set(key, value))) {
+                jedis.expire(key, expireTime);
+            }
+        } finally {
+            releaseConnection(jedis);
+        }
     }
 
     @Override
-    public String set(String key, String value, String model, String timeUnit, Long expireTime) {
-        JedisConnection connection = (JedisConnection) jedisConnectionFactory.getConnection();
-        Jedis jedis = connection.getJedis();
-        return jedis.set(key, value, model, timeUnit, expireTime);
+    public Boolean setNX(String key, String value, Long expireTime) {
+        Jedis jedis = getConnectionFromPool(jedisPool);
+        try {
+            return successResponse(jedis.set(key, value, "NX", "PX", expireTime));
+        } finally {
+            releaseConnection(jedis);
+        }
     }
 
     @Override
-    public String get(String username) {
-        return redisTemplate.opsForValue().get(username);
+    public String get(String key) {
+        Jedis jedis = getConnectionFromPool(jedisPool);
+        try {
+            return jedis.get(key);
+        } finally {
+            releaseConnection(jedis);
+        }
+    }
+
+    private boolean successResponse(String result) {
+        if (StringUtils.isNotBlank(result) && result.equalsIgnoreCase("ok")) {
+            return true;
+        }
+        return false;
+    }
+
+
+    private Jedis getConnectionFromPool(JedisPool jedisPool) {
+        return jedisPool.getResource();
+    }
+
+    private void releaseConnection(Jedis jedis) {
+        if (jedis != null) {
+            jedis.close();
+        }
     }
 }

@@ -10,7 +10,6 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -27,8 +26,6 @@ public class UserController {
     private UserService userService;
     @Autowired
     private PasswordEncoder passwordEncoder;
-    @Autowired
-    private StringRedisTemplate redisTemplate;
     @Autowired
     private LockUtil lockUtil;
 
@@ -59,7 +56,7 @@ public class UserController {
         JSONObject jsonObject = JSONObject.parseObject(jsonStr);
         String topic = jsonObject.getString("topic");
         String msg = jsonObject.getString("msg");
-        this.redisTemplate.convertAndSend(topic, msg);
+//        this.redisTemplate.convertAndSend(topic, msg);
         return CommonResultMap.builder(HttpCode.OK).build();
     }
 }

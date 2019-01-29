@@ -19,16 +19,16 @@ spring:
   redis:
     host: 127.0.0.1
     port: 6379
-    database: 0
-    timeout: 2000ms
-    topic: benji
-    jedis:
-      pool:
-        max-active: 8
-        max-idle: 8
-        min-idle: 0
-        max-wait: -1ms
     password: 123456
+    database: 0
+    timeout: 2000
+    maxIdle: 20
+    maxTotal: 300
+    maxWaitMillis: 10000
+    testOnBorrow: false
+    blockWhenExhausted: false
+    topic: benji
+
 
 
 

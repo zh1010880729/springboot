@@ -1,40 +1,42 @@
 package cn.linkedcare.config;
 
-import lombok.Data;
+import cn.linkedcare.config.properties.RedisConfigProperties;
+import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.redis.connection.MessageListener;
-import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
-import org.springframework.data.redis.listener.ChannelTopic;
-import org.springframework.data.redis.listener.RedisMessageListenerContainer;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
 
 /**
  * Created by Benji on 2018/6/22.
  */
 @Configuration
-@Data
 @ConfigurationProperties(prefix = "spring.redis")
 public class RedisConfig {
-    private String topic;
 
     @Autowired
-    private JedisConnectionFactory jedisConnectionFactory;
-    @Autowired
-    private MessageListener messageListener;
+    private RedisConfigProperties redisConfigProperties;
 
     @Bean
-    public ChannelTopic channelTopic() {
-        return new ChannelTopic(topic);
+    public JedisPool getJedisPool() {
+        return new JedisPool(getGenericObjectPoolConfig(), redisConfigProperties.getHost(), redisConfigProperties.getPort(), redisConfigProperties.getTimeout(), redisConfigProperties.getPassword());
     }
 
     @Bean
-    public RedisMessageListenerContainer redisMessageListenerContainer() {
-        RedisMessageListenerContainer container = new RedisMessageListenerContainer();
-        container.setConnectionFactory(jedisConnectionFactory);
-        container.addMessageListener(messageListener, channelTopic());
-        return container;
+    public Jedis getJedis() {
+        return getJedisPool().getResource();
     }
 
+
+    private GenericObjectPoolConfig getGenericObjectPoolConfig() {
+        GenericObjectPoolConfig poolConfig = new GenericObjectPoolConfig();
+        poolConfig.setTestOnBorrow(redisConfigProperties.getTestOnBorrow());
+        poolConfig.setBlockWhenExhausted(redisConfigProperties.getBlockWhenExhausted());
+        poolConfig.setMaxIdle(redisConfigProperties.getMaxIdle());
+        poolConfig.setMaxTotal(redisConfigProperties.getMaxTotal());
+        poolConfig.setMaxWaitMillis(redisConfigProperties.getMaxWaitMillis());
+        return poolConfig;
+    }
 }

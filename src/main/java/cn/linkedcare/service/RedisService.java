@@ -14,7 +14,13 @@ public interface RedisService {
      */
     void set(String key, String value, int expireTime);
 
-    String set(String key, String value, String model, String timeUnit, Long expireTime);
+    /**
+     * @param key
+     * @param value
+     * @param expireTime 过期时间 单位：毫秒
+     * @return
+     */
+    Boolean setNX(String key, String value, Long expireTime);
 
     String get(String username);
 }
