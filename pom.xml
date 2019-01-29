@@ -24,7 +24,7 @@
         <java.version>1.8</java.version>
         <common.lang3.version>3.4</common.lang3.version>
         <jdbc.version>5.1.38</jdbc.version>
-        <druid.version>1.0.11</druid.version>
+        <druid.version>1.1.6</druid.version>
         <lombok.version>1.16.18</lombok.version>
         <sharding.jdbc.version>2.0.3</sharding.jdbc.version>
         <swagger.version>2.6.1</swagger.version>
@@ -88,6 +88,13 @@
         </dependency>
         <!--JDBC结束-->
 
+        <!-- RocketMQ开始 -->
+        <dependency>
+            <groupId>org.apache.rocketmq</groupId>
+            <artifactId>rocketmq-client</artifactId>
+            <version>4.3.0</version>
+        </dependency>
+        <!-- RocketMQ结束 -->
         <!--工具类-->
         <dependency>
             <groupId>org.apache.commons</groupId>
@@ -141,6 +148,26 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/com.github.wxpay/wxpay-sdk -->
+        <dependency>
+            <groupId>com.github.wxpay</groupId>
+            <artifactId>wxpay-sdk</artifactId>
+            <version>0.0.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>Pingplusplus</groupId>
+            <artifactId>pingpp-java</artifactId>
+            <version>2.3.8</version>
+            <!--请将 VERSION 换成 SDK 对应的版本号，如：2.2.4-->
+            <type>jar</type>
+        </dependency>
+        <!--RocketMq-->
+        <dependency>
+            <groupId>org.apache.rocketmq</groupId>
+            <artifactId>rocketmq-client</artifactId>
+            <version>4.3.2</version>
         </dependency>
     </dependencies>
 

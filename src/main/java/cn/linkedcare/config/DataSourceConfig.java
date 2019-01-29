@@ -12,8 +12,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 
 import javax.sql.DataSource;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
 /**
  * 多数据源实现读写分离
@@ -32,6 +34,7 @@ public class DataSourceConfig {
     private static final String URL = "spring.datasource.%s.url";
     private static final String USERNAME = "spring.datasource.%s.username";
     private static final String PASSWORD = "spring.datasource.%s.password";
+    private static final String PRIVATEKEY = "spring.datasource.%s.privateKey";
 
 //    /**
 //     * 事物管理器
@@ -79,10 +82,19 @@ public class DataSourceConfig {
      */
     private DruidDataSource getDataSourceByName(String name) {
         DruidDataSource druidDataSource = new DruidDataSource();
-        druidDataSource.setUrl(environment.getProperty(String.format(URL, name)));
-        druidDataSource.setUsername(environment.getProperty(String.format(USERNAME, name)));
-        druidDataSource.setPassword(environment.getProperty(String.format(PASSWORD, name)));
-        this.setDataSourceProperties(druidDataSource);
+        try {
+            druidDataSource.setUrl(environment.getProperty(String.format(URL, name)));
+            druidDataSource.setUsername(environment.getProperty(String.format(USERNAME, name)));
+            druidDataSource.setPassword(environment.getProperty(String.format(PASSWORD, name)));
+            druidDataSource.setFilters("config");
+            Properties properties = new Properties();
+            properties.setProperty("config.decrypt", String.valueOf(true));
+            properties.setProperty("config.decrypt.key", environment.getProperty(String.format(PRIVATEKEY, name)));
+            druidDataSource.setConnectProperties(properties);
+            this.setDataSourceProperties(druidDataSource);
+        } catch (SQLException e) {
+            log.error("getDataSourceByName 出现异常", e);
+        }
         return druidDataSource;
     }
 

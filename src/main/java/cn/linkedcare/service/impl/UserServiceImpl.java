@@ -19,11 +19,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public User insert(User user) {
         userMapper.insertSelective(user);
-        try {
-            int x = 1 / 0;
-        } catch (RuntimeException e) {
-            throw new RuntimeException(e.getMessage());
-        }
         return user;
     }
 

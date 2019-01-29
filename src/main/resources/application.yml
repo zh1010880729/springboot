@@ -15,7 +15,7 @@ spring:
     testOnReturn: false
     poolPreparedStatements: false
 server:
-  port: 80
+  port: 1013
 
 
 

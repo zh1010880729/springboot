@@ -33,10 +33,20 @@
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
         <!-- 要生成的表 tableName是数据库中的表名或视图名 domainObjectName是实体类名-->
-        <table tableName="order_gross_prpfit" domainObjectName="OrderGrossPrpfit" enableCountByExample="false" enableUpdateByExample="false"
+        <table tableName="catalog_sku" domainObjectName="CatalogSku" enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
             <!--类型重写-->
-            <!--<columnOverride column="member_level" jdbcType="TINYINT" javaType="java.lang.Integer"></columnOverride>-->
+            <!--<columnOverride column="status" jdbcType="TINYINT" javaType="java.lang.Integer"/>-->
+        </table>
+        <table tableName="ground_discount_apply_setting" domainObjectName="GroundDiscountApplySetting" enableCountByExample="false" enableUpdateByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+            <!--类型重写-->
+            <columnOverride column="auto_audit_enabled" jdbcType="TINYINT" javaType="java.lang.Integer"/>
+            <columnOverride column="level0_auto_enabled" jdbcType="TINYINT" javaType="java.lang.Integer"/>
+            <columnOverride column="level1_auto_enabled" jdbcType="TINYINT" javaType="java.lang.Integer"/>
+            <columnOverride column="level2_auto_enabled" jdbcType="TINYINT" javaType="java.lang.Integer"/>
+            <columnOverride column="level3_auto_enabled" jdbcType="TINYINT" javaType="java.lang.Integer"/>
+            <columnOverride column="enabled" jdbcType="TINYINT" javaType="java.lang.Integer"/>
         </table>
     </context>
 </generatorConfiguration>

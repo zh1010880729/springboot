@@ -4,15 +4,18 @@ spring:
     master:
       url: jdbc:mysql://localhost:3306/benji?useUnicode=true&characterEncoding=utf8
       username: root
-      password: 123456
+      password: S+wpinNyAH6r41S+ERDlFjItgwKZVlJUMQsIXFg6knD5REr4hV4+4OTBaNy7FWf8w3Amg9FMe428TageBfXapA==
+      privateKey: MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAJKDOGxMwV6SH8VD1AWuQWsV1vdJZMSnDV7U9Ek89slUlUtTk/204sNASUJZceRmDa/kUDe5dc+GEIL91m+HDh0CAwEAAQ==
     slave1:
       url: jdbc:mysql://localhost:3306/benji?useUnicode=true&characterEncoding=utf8
       username: root
-      password: 123456
+      password: S+wpinNyAH6r41S+ERDlFjItgwKZVlJUMQsIXFg6knD5REr4hV4+4OTBaNy7FWf8w3Amg9FMe428TageBfXapA==
+      privateKey: MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAJKDOGxMwV6SH8VD1AWuQWsV1vdJZMSnDV7U9Ek89slUlUtTk/204sNASUJZceRmDa/kUDe5dc+GEIL91m+HDh0CAwEAAQ==
     slave2:
       url: jdbc:mysql://localhost:3306/benji?useUnicode=true&characterEncoding=utf8
       username: root
-      password: 123456
+      password: S+wpinNyAH6r41S+ERDlFjItgwKZVlJUMQsIXFg6knD5REr4hV4+4OTBaNy7FWf8w3Amg9FMe428TageBfXapA==
+      privateKey: MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAJKDOGxMwV6SH8VD1AWuQWsV1vdJZMSnDV7U9Ek89slUlUtTk/204sNASUJZceRmDa/kUDe5dc+GEIL91m+HDh0CAwEAAQ==
   redis:
     host: 127.0.0.1
     port: 6379
@@ -34,6 +37,11 @@ mybatis:
   type-aliases-package: cn.linkedcare.entity
   configuration:
     map-underscore-to-camel-case: true
+rocketMq:
+  namesrvAddr: 192.168.134.101:9876
+  groupName:
+    producer: producer_benji
+    consumer: consumer_benji
 
 fund:
   fundCodeAndMoney: 161725_999.03,000711_489.63,110022_486.08
