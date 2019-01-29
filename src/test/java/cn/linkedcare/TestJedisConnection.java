@@ -1,5 +1,7 @@
 package cn.linkedcare;
 
+import cn.linkedcare.config.properties.RedisConfigProperties;
+import cn.linkedcare.entity.JedisConsumer;
 import cn.linkedcare.service.RedisService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,12 +15,12 @@ public class TestJedisConnection {
 
     @Autowired
     private RedisService redisService;
-
+    @Autowired
+    private RedisConfigProperties redisConfigProperties;
 
     @Test
     public void doTest() {
-        System.out.println(redisService.setNX("demo", "张恒", 10000l));
-        System.out.println(redisService.setNX("demo", "Benji", 10000l));
+        redisService.publish(redisConfigProperties.getTopic(), "测试啊啊啊啊！");
     }
 
 }

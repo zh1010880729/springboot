@@ -1,5 +1,8 @@
 package cn.linkedcare;
 
+import cn.linkedcare.entity.JedisConsumer;
+import cn.linkedcare.service.RedisService;
+import cn.linkedcare.util.SpringContextUtil;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -20,5 +23,7 @@ public class BenjiApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(BenjiApplication.class, args);
+        RedisService redisService = SpringContextUtil.getBean(RedisService.class);
+        redisService.subscibe("benji", JedisConsumer.class);
     }
 }

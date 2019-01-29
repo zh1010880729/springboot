@@ -1,5 +1,7 @@
 package cn.linkedcare.service;
 
+import redis.clients.jedis.JedisPubSub;
+
 /**
  * Created by Benji on 2018/8/4.
  */
@@ -23,4 +25,20 @@ public interface RedisService {
     Boolean setNX(String key, String value, Long expireTime);
 
     String get(String username);
+
+    /**
+     * 订阅Redis chanel
+     *
+     * @param channel
+     * @param jedisPubSub
+     */
+    void subscibe(String channel, Class<? extends JedisPubSub> jedisPubSub);
+
+    /**
+     * 发布消息
+     *
+     * @param channel
+     * @param message
+     */
+    void publish(String channel, String message);
 }

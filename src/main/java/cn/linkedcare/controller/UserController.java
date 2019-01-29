@@ -3,6 +3,7 @@ package cn.linkedcare.controller;
 import cn.linkedcare.entity.CommonResultMap;
 import cn.linkedcare.entity.User;
 import cn.linkedcare.enumeration.HttpCode;
+import cn.linkedcare.service.RedisService;
 import cn.linkedcare.service.UserService;
 import cn.linkedcare.util.LockUtil;
 import com.alibaba.fastjson.JSONObject;
@@ -28,6 +29,8 @@ public class UserController {
     private PasswordEncoder passwordEncoder;
     @Autowired
     private LockUtil lockUtil;
+    @Autowired
+    private RedisService redisService;
 
 
     @GetMapping(value = "me", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -56,7 +59,7 @@ public class UserController {
         JSONObject jsonObject = JSONObject.parseObject(jsonStr);
         String topic = jsonObject.getString("topic");
         String msg = jsonObject.getString("msg");
-//        this.redisTemplate.convertAndSend(topic, msg);
+        redisService.publish(topic, msg);
         return CommonResultMap.builder(HttpCode.OK).build();
     }
 }

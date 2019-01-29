@@ -12,7 +12,6 @@ public class LockUtil {
 
     private static final Long EXPIRE_TIME = 10000L;
 
-
     @Autowired
     private RedisService redisService;
 

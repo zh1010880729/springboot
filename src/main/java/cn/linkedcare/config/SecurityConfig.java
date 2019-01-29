@@ -46,7 +46,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/user/login", "/user/register", "/apollo/**", "/swagger-ui**").permitAll()
+                .antMatchers("/user/login", "/user/register", "/apollo/**", "/swagger-ui**", "/user/redis/topic").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilter(new JwtLoginFilter(authenticationManager()))
