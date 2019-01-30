@@ -70,7 +70,7 @@ public class DataSourceConfig {
         } catch (Exception e) {
             log.error("初始化连接池失败");
         }
-        log.info("数据库连接池初始化成功");
+        log.debug("数据库连接池初始化成功");
         return dataSource;
     }
 
